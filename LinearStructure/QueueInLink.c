@@ -44,7 +44,6 @@ int main(void)
     AddQ(Q, 35);
     PrintQueue(Q);
 
-
     AddQ(Q, 6);
     ElementType a = DeleteQ(Q);
     printf("The left element is = %d\n", a);
