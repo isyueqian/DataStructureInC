@@ -37,7 +37,9 @@ int main(void)
     printf("Is Empty = %d\n", IsEmpty(Q));
 
     AddQ(Q, 2);
-    DeleteQ(Q); // 这种实现只有在加入第一个元素后删掉头结点才可使用，疑问：没有头结点的情况下如何入队？
+    PrintQueue(Q);
+    DeleteQ(Q); // 这种实现只有在加入第一个元素后删掉头结点才可使用，疑问：没有头结点的情况下如何入队？一般都默认有空的头结点
+    PrintQueue(Q);
 
     AddQ(Q, 3);
     AddQ(Q, 4);
@@ -71,20 +73,19 @@ void PrintQueue(Queue Q)
 Queue CreateQueue(int MaxSize)
 {
     Queue Q = (Queue) malloc (sizeof(struct QNode));
-    PtrToNode head = (PtrToNode) malloc (sizeof(struct Node));
-    Q->Rear = Q->Front = head;
+    Q->Front = (PtrToNode) malloc (sizeof(struct Node));
     Q->Front->Next = NULL;
-
-//    Q->Front = (PtrToNode) malloc (sizeof(struct Node));
-//    Q->Rear = Q->Front;
+    Q->Rear = Q->Front;
     Q->MaxSize = MaxSize;
     return Q;
 }
 
 bool IsEmpty(Queue Q)
 {
-    return Q->Front->Next==NULL; // Q->Front就是第一个放元素的位置
+    return Q->Front->Next==NULL; // Q->Front->Next是第一个放元素的位置
+//    return Q->Front == Q->Rear;
 }
+
 
 ElementType DeleteQ(Queue Q)
 {
@@ -93,14 +94,15 @@ ElementType DeleteQ(Queue Q)
         printf("This queue is empty.");
         ret = ERROR;
     } else {
-        PtrToNode FrontCell = Q->Front;
-        if (Q->Front == Q->Rear) { // 只有一个元素的条件
-            Q->Front = Q->Rear = NULL;
-        } else {
-            Q->Front = Q->Front->Next;
+        PtrToNode tmp = Q->Front->Next;
+        ret = tmp->Data;
+        Q->Front->Next = Q->Front->Next->Next;
+//        Q->Front = Q->Front->Next; // 区别：移动的不是头指针，而是Q->Front->Next;
+        if (Q->Front->Next == NULL) {
+            Q->Rear = Q->Front;
         }
-        ret = FrontCell->Data;
-        free(FrontCell);
+
+        free(tmp);
     }
     return ret;
 }
