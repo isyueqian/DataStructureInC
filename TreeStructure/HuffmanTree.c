@@ -239,4 +239,7 @@ input data:
 
 output should be:
 15 6 9 3 3 4 5 1 2
+
+Things to learn from:
+remember to initialize every pointer in an array, not just the array
  */

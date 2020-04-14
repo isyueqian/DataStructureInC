@@ -284,7 +284,7 @@ void PreOrderTraversalStack(BinTree BT)
     }
 }
 
-// check it!!!
+
 void PostOrderTraversalStack(BinTree BT)
 {
     BinTree T=BT, P=NULL; // P represents that last visited node
